@@ -9,3 +9,6 @@ semantic/
 
 # MacOS
 .DS_Store
+
+# Build Files
+dist/
