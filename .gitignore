@@ -1,0 +1,11 @@
+# VS Code Files
+.code-workspace
+
+# Node.js Files
+node_modules/
+
+# Semantic UI
+semantic/
+
+# MacOS
+.DS_Store
