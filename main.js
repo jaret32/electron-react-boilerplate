@@ -1,23 +1,37 @@
 const isDev = require('electron-is-dev');
-const electron = require('electron');
-// Module to control application life.
-const app = electron.app;
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow
+const { app, BrowserWindow } = require('electron');
 
 const path = require('path');
 const url = require('url');
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
+const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
+
 let mainWindow
 
 function createWindow () {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600});
+
+  mainWindow = new BrowserWindow({
+    width: 1024,
+    height: 768,
+    resizable: false,
+    show: false,
+    title: '',
+    webPrefrences: {
+      nodeIntegration: true
+    }
+  });
 
   // and load the index.html of the app.
-  mainWindow.loadURL(isDev ? 'http://localhost:8080' : `file://${path.join(__dirname, '../build/index.html')}`);
+  mainWindow.loadURL(isDev ? 'http://localhost:8080' : `file://${path.join(__dirname, '/build/index.html')}`);
+
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show();
+    if (isDev) {
+      installExtension(REACT_DEVELOPER_TOOLS)
+        .catch(err => console.log('Error loading React DevTools: ', err));
+      mainWindow.webContents.openDevTools();
+    }
+  });
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
