@@ -1,5 +1,5 @@
 # VS Code Files
-.code-workspace
+*.code-workspace
 
 # Node.js Files
 node_modules/
